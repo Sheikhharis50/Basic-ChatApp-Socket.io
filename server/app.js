@@ -9,7 +9,11 @@ let mongoose = require('mongoose');
 const port = process.env.PORT || 5000
 
 // setting up database
-db = require('./database/dev').db;
+try {
+    db = require('./database/dev').db;
+} catch {
+    db = require('./database/prod').db;
+}
 
 // importing routes
 const index = require("./routes/index");
