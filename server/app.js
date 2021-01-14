@@ -9,11 +9,8 @@ let mongoose = require('mongoose');
 const port = process.env.PORT || 5000
 
 // setting up database
-try {
-    db = require('./database/dev').db;
-} catch {
-    db = require('./database/prod').db;
-}
+database = require('./database');
+var db = new database('./database/db.sqlite');
 
 // importing routes
 const index = require("./routes/index");
@@ -40,22 +37,6 @@ app.use(function (err, req, res, next) {
     if (!err.statusCode) err.statusCode = 500;
     res.status(err.statusCode).send(err.message);
 });
-
-
-// Connecting mongoDB Database
-mongoose.Promise = global.Promise;
-mongoose.connect(db, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-}).then(() => {
-    console.log('Database sucessfully connected!')
-},
-    error => {
-        console.log('Could not connect to database : ' + error)
-    }
-)
 
 // setting up sockets
 const server = http.createServer(app)

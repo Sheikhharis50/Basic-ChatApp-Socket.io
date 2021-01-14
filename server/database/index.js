@@ -6,7 +6,7 @@ class db {
             if (err) {
                 console.log('Could not connect to database', err)
             } else {
-                console.log('Connected to database')
+                console.log('Connected to SQlite database')
             }
         })
     }
